@@ -1,3 +1,59 @@
 body{
     background-color: rgb(11, 11, 95);
+    user-select: none;
 }
+
+.flexbox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+
+
+/* Code for switch */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    
+  }
+  
+.switch{
+  position: relative;
+  height:50px;
+  display:flex;
+  justify-content:space-around;
+  background-color: rgb(25, 100, 35);
+  border-radius: 60px;
+  color: #fff;
+
+}
+.switch label{
+  padding: 1rem;
+  z-index:1;
+}
+.switch::before{
+  content: '';
+  position: absolute;
+  width: 34%;
+  height: 100%;
+  background: #14142a;
+  border: 1px solid #fff;
+  border-radius: 50px;
+  opacity: .5;
+  transition: .5s left ease;
+}
+
+.switch:has(#switch-left:checked)::before{
+  left: 0%;
+}
+.switch:has(#switch-no:checked)::before{
+  left: 33%;
+}
+.switch:has(#switch-right:checked)::before{
+  left: 66%;
+}
+
