@@ -44,7 +44,7 @@ window.document.body.style.overflow = 'hidden';
 for (let i = 0; i < numberOfRaindrops; i++) {
     color = colorArray[i % 6];
     const raindropDiv = document.createElement('div');
-    raindropDiv.id = 'sg' + i;
+    raindropDiv.id = 'drop' + i;
     raindropDiv.style.position = 'absolute';
     raindropDiv.style.top = '0';
     raindropDiv.style.left = '0';
@@ -95,7 +95,7 @@ function updateRaindropPositions() {
             randomYPositions[j] = -10;
         }
         if (eventMatrix[j] == 0) {
-            const raindropElement = document.getElementById("sg" + j);
+            const raindropElement = document.getElementById("drop" + j);
             raindropElement.style.left = randomXPositions[j] + scrollLeft + 'px';
             raindropElement.style.top = randomYPositions[j] + scrollTop + 'px';
             raindropElement.style.visibility = 'visible';
