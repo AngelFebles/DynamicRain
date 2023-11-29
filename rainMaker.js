@@ -8,20 +8,13 @@ let windLeft = document.getElementById("switch-left");
 let windNo = document.getElementById("switch-no");
 let windRight = document.getElementById("switch-right");
 
-//Default rain propreties
-let numraindrops= ammountSlide.value; //100
-let speed= speedSlide.value; //2
-let rainSize=sizeSlide.value; //3
-let wind="no";
-
-
-
 //Input values
-let numberOfRaindrops = parseInt(numraindrops);
-let raindropSize = parseInt(rainSize);
-let raindropSpeed = parseInt(speed);
-let windDirection = wind;
+let numberOfRaindrops = parseInt(ammountSlide.value); //default 100
+let raindropSpeed = parseInt(speedSlide.value); // default 2
+let raindropSize = parseInt(sizeSlide.value); // default 3
+let windDirection = "no";
 
+//var for animation setTimeout
 let infinitePositionUpdate;
 
 // Set wind direction
@@ -130,6 +123,8 @@ function updateRaindropPositions() {
 }
 
 
+
+//Show Starter!!!!!
 function startAnimation() {
     updateRaindropPositions();
     infinitePositionUpdate = setTimeout(startAnimation, 20);
@@ -148,27 +143,27 @@ window.onresize = () => {
 
 //Event Listeners
 ammountSlide.addEventListener("change", function(){
-    numraindrops = parseInt(ammountSlide.value);
+    numberOfRaindrops = parseInt(ammountSlide.value);
     //clearTimeout(infinitePositionUpdate);
   
-    //console.log(parseInt(numraindrops);
+    //console.log(numberOfRaindrops);
 
 });
 
 speedSlide.addEventListener("change", function(){
-    speed = parseInt(speedSlide.value);
-    //console.log(speed);
+    raindropSpeed = parseInt(speedSlide.value);
+    //console.log(raindropSpeed);
 });
 
 sizeSlide.addEventListener("change", function(){
-    rainSize = parseInt(sizeSlide.value);
-    //console.log(rainsize);
+    raindropSize = parseInt(sizeSlide.value);
+    //console.log(raindropSize);
 });
 
 //Wind switch event listeners
 windLeft.addEventListener("change", function() {
     if(this.checked){
-        wind = "left";
+        windDirection = "left";
         //console.log(wind);
 
     }
@@ -176,7 +171,7 @@ windLeft.addEventListener("change", function() {
 
 windNo.addEventListener("change", function() {
     if(this.checked){
-        wind = "no";
+        windDirection = "no";
         //console.log(wind);
     }
 
@@ -184,7 +179,7 @@ windNo.addEventListener("change", function() {
 
 windRight.addEventListener("change", function() {
     if(this.checked){
-        wind = "right";
+        windDirection = "right";
         //console.log(wind);
     }
 });
