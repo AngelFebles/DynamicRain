@@ -1,6 +1,6 @@
 //Input values
 let numberOfRaindrops = parseInt(numraindrops);
-let raindropSize = parseInt(rainsize);
+let raindropSize = parseInt(rainSize);
 let raindropSpeed = parseInt(speed);
 let windDirection = wind;
 
@@ -41,28 +41,35 @@ window.document.body.style.overflow = 'hidden';
 
 
 //Create the rain drops
-for (let i = 0; i < numberOfRaindrops; i++) {
-    color = colorArray[i % 6];
-    const raindropDiv = document.createElement('div');
-    raindropDiv.id = 'drop' + i;
-    raindropDiv.style.position = 'absolute';
-    raindropDiv.style.top = '0';
-    raindropDiv.style.left = '0';
-    raindropDiv.style.width = '1px';
-    raindropDiv.style.height = Math.round(Math.random() * raindropSize) + raindropSize + 'px';
-    raindropDiv.style.background = '#' + color;
-    raindropDiv.style.fontSize = raindropDiv.style.height;
-    raindropDiv.style.visibility = 'hidden';
-    document.body.appendChild(raindropDiv);
+
+function createRainDropDivs(){
+    for (let i = 0; i < numberOfRaindrops; i++) {
+        color = colorArray[i % 6];
+        const raindropDiv = document.createElement('div');
+        raindropDiv.id = 'drop' + i;
+        raindropDiv.style.position = 'absolute';
+        raindropDiv.style.top = '0';
+        raindropDiv.style.left = '0';
+        raindropDiv.style.width = '1px';
+        raindropDiv.style.height = Math.round(Math.random() * raindropSize) + raindropSize + 'px';
+        raindropDiv.style.background = '#' + color;
+        raindropDiv.style.fontSize = raindropDiv.style.height;
+        raindropDiv.style.visibility = 'hidden';
+        document.body.appendChild(raindropDiv);
+    }
 }
 
-//Assign random positions to the raindrops
-for (let i = 0; i < numberOfRaindrops; i++) {
-    randomXPositions[i] = Math.round(Math.random() * viewportWidth);
-    randomYPositions[i] = Math.round(Math.random() * viewportHeight);
-    randomHorizontalSpeeds[i] = Math.round(Math.random() * 8) + raindropSpeed;
-    eventMatrix[i] = -1;
+ //Assign random positions to the raindrops
+function giveRandomPositionToDivs(){
+    for (let i = 0; i < numberOfRaindrops; i++) {
+        randomXPositions[i] = Math.round(Math.random() * viewportWidth);
+        randomYPositions[i] = Math.round(Math.random() * viewportHeight);
+        randomHorizontalSpeeds[i] = Math.round(Math.random() * 8) + raindropSpeed;
+        eventMatrix[i] = -1;
+    }
 }
+
+
 
 
 //This allows us to re-use the same X number of divs instead of having to infinetly create new ones
@@ -103,12 +110,17 @@ function updateRaindropPositions() {
     }
 }
 
+
 function startAnimation() {
     updateRaindropPositions();
     setTimeout(startAnimation, 20);
 }
 
-window.onload = startAnimation;
+createRainDropDivs();
+giveRandomPositionToDivs();
+startAnimation();
+
+
 window.onresize = () => {
     window.location.reload();
 };
