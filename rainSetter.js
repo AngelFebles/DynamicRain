@@ -7,15 +7,16 @@ let windNo = document.getElementById("switch-no");
 let windRight = document.getElementById("switch-right");
 
 //Default rain propreties
-let numraindrops= ammountSlide.value;
-let speed= speedSlide.value;
-let rainsize=sizeSlide.value;
+let numraindrops= ammountSlide.value; //100
+let speed= speedSlide.value; //2
+let rainSize=sizeSlide.value; //3
 let wind="no";
 
 
 
 ammountSlide.addEventListener("change", function(){
     numraindrops = parseInt(ammountSlide.value);
+  
     //console.log(parseInt(numraindrops);
 
 });
@@ -26,7 +27,7 @@ speedSlide.addEventListener("change", function(){
 });
 
 sizeSlide.addEventListener("change", function(){
-    rainsize = parseInt(sizeSlide.value);
+    rainSize = parseInt(sizeSlide.value);
     //console.log(rainsize);
 });
 
