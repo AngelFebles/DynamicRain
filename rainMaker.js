@@ -17,6 +17,9 @@ let windDirection = "no";
 //var for animation setTimeout
 let infinitePositionUpdate;
 
+let currentNumberOfRaindrops = 0;
+
+
 // Set wind direction
 let windHorizontalSpeed;
 if (windDirection == "left")
@@ -51,13 +54,12 @@ let scrollTop =  window.scrollY || document.documentElement.scrollTop;
 
 window.document.body.style.overflow = 'hidden';
 
-
-//Create the rain drops
-
+//Create & delete rain drops
 function createRainDropDivs(){
-    for (let i = 0; i < numberOfRaindrops; i++) {
+    for (let i = currentNumberOfRaindrops; i < numberOfRaindrops; i++) {
         color = colorArray[i % 6];
         const raindropDiv = document.createElement('div');
+        raindropDiv.className = 'rainDrop';
         raindropDiv.id = 'drop' + i;
         raindropDiv.style.position = 'absolute';
         raindropDiv.style.top = '0';
@@ -70,10 +72,20 @@ function createRainDropDivs(){
         document.body.appendChild(raindropDiv);
     }
 }
+function deleteRainDropDivs(){
+    for (let i = currentNumberOfRaindrops; i >= numberOfRaindrops; i--) {
+        let divToRemove = document.getElementById("drop"+i);
+        if(divToRemove){
+            console.log(i);
+            divToRemove.remove();
+        }
+    }
+
+}
 
  //Assign random positions to the raindrops
 function giveRandomPositionToDivs(){
-    for (let i = 0; i < numberOfRaindrops; i++) {
+    for (let i = currentNumberOfRaindrops; i < numberOfRaindrops; i++) {
         randomXPositions[i] = Math.round(Math.random() * viewportWidth);
         randomYPositions[i] = Math.round(Math.random() * viewportHeight);
         randomHorizontalSpeeds[i] = Math.round(Math.random() * 8) + raindropSpeed;
@@ -123,6 +135,25 @@ function updateRaindropPositions() {
 }
 
 
+//TODO Ammount updater!
+
+function uptadeNumberOfDivs(){
+    let elements = document.getElementsByClassName('rainDrop');
+    currentNumberOfRaindrops= elements.length ;
+    console.log("Old: "+currentNumberOfRaindrops);
+
+    if(numberOfRaindrops>currentNumberOfRaindrops){
+        createRainDropDivs();
+        giveRandomPositionToDivs();
+    }else if (numberOfRaindrops<currentNumberOfRaindrops){
+        //console.log("Del");
+        deleteRainDropDivs();
+    }
+    startAnimation();
+    }
+ 
+
+
 
 //Show Starter!!!!!
 function startAnimation() {
@@ -144,10 +175,9 @@ window.onresize = () => {
 //Event Listeners
 ammountSlide.addEventListener("change", function(){
     numberOfRaindrops = parseInt(ammountSlide.value);
-    //clearTimeout(infinitePositionUpdate);
-  
-    //console.log(numberOfRaindrops);
-
+    clearTimeout(infinitePositionUpdate);
+    console.log("New "+ numberOfRaindrops);
+    uptadeNumberOfDivs(5);
 });
 
 speedSlide.addEventListener("change", function(){
