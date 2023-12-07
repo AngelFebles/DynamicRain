@@ -26,7 +26,9 @@ img{
     align-items: center;
 }
 
+
 /* Code for switch */
+
 .switch input {
     opacity: 0;
     width: 0;
@@ -56,26 +58,24 @@ img{
   align-items: center;
 }
 
-
-.switch::before{
-  content: '';
+#active-label{
   position: absolute;
+  left:0;
   width: 34%;
   height: 100%;
   background: #14142a;
   border: 1px solid #fff;
-  border-radius: 50px;
+  border-radius: 30px;
   opacity: .5;
   transition: .5s left ease;
 }
 
-.switch:has(#switch-left:checked)::before{
-  left: 0%;
+#switch-left:checked ~ #active-label{
+  left:0;
 }
-.switch:has(#switch-no:checked)::before{
-  left: 33%;
+#switch-no:checked ~ #active-label{
+  left:34%;
 }
-.switch:has(#switch-right:checked)::before{
-  left: 66%;
+#switch-right:checked ~ #active-label {
+  left:66%;
 }
-
