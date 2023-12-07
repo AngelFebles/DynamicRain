@@ -91,6 +91,8 @@ function updateRainDropSize(){
     startAnimation();
 }
 
+
+
  //Assign random positions to the raindrops
 function giveRandomPositionToDivs(){
     for (let i = currentNumberOfRaindrops; i < numberOfRaindrops; i++) {
@@ -101,7 +103,7 @@ function giveRandomPositionToDivs(){
     }
 }
 
-function updateHorizontalSpeeds(){
+function updateFallSpeed(){
     for(let i = 0; i < numberOfRaindrops; i ++){
         randomHorizontalSpeeds[i] = Math.round(Math.random() * 8) + raindropSpeed;
     }
@@ -200,7 +202,7 @@ ammountSlide.addEventListener("change", function(){
 speedSlide.addEventListener("change", function(){
     raindropSpeed = parseInt(speedSlide.value) * 4;
     clearTimeout(infinitePositionUpdate);
-    updateHorizontalSpeeds();
+    updateFallSpeed();
 });
 
 sizeSlide.addEventListener("change", function(){
@@ -213,15 +215,20 @@ sizeSlide.addEventListener("change", function(){
 windLeft.addEventListener("change", function() {
     if(this.checked){
         windDirection = "left";
-        //console.log(wind);
-
+        clearTimeout(infinitePositionUpdate);
+        windHorizontalSpeed = -raindropSpeed;
+        startAnimation();
+        console.log(windDirection);
     }
 });
 
 windNo.addEventListener("change", function() {
     if(this.checked){
         windDirection = "no";
-        //console.log(wind);
+        clearTimeout(infinitePositionUpdate);
+        windHorizontalSpeed = 0;
+        startAnimation();
+        console.log(windDirection);
     }
 
 });
@@ -229,6 +236,9 @@ windNo.addEventListener("change", function() {
 windRight.addEventListener("change", function() {
     if(this.checked){
         windDirection = "right";
-        //console.log(wind);
+        clearTimeout(infinitePositionUpdate);
+        windHorizontalSpeed = raindropSpeed;
+        startAnimation();
+        console.log(windDirection);
     }
 });
