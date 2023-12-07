@@ -4,6 +4,11 @@ body{
     text-align: center;
 }
 
+img{
+  width: 50px;
+  height: 50px;
+}
+
 .flexbox{
     display: flex;
     flex-direction: column;
@@ -17,6 +22,8 @@ body{
 
 .flex-item {
     display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Code for switch */
@@ -31,6 +38,7 @@ body{
   }
   
 .switch{
+  flex-direction: row;
   text-align: center;
   position: relative;
   width: 200px;
