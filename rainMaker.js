@@ -1,9 +1,24 @@
-//Input values
-let numberOfRaindrops = parseInt(numraindrops);
-let raindropSize = parseInt(rainSize);
-let raindropSpeed = parseInt(speed);
-let windDirection = wind;
 
+//HTML elements
+let ammountSlide = document.getElementById("numraindropsID");
+let speedSlide= document.getElementById("speedID");
+let sizeSlide = document.getElementById("rainSizeID");
+
+let windLeft = document.getElementById("switch-left");
+let windNo = document.getElementById("switch-no");
+let windRight = document.getElementById("switch-right");
+
+//Input values
+let numberOfRaindrops = parseInt(ammountSlide.value); //default 100
+let raindropSpeed = parseInt(speedSlide.value); // default 2
+let raindropSize = parseInt(sizeSlide.value); // default 3
+let windDirection = "no";
+
+//var for animation setTimeout
+let infinitePositionUpdate;
+
+let currentNumberOfRaindrops = 0;
+let raindropDiv;
 
 // Set wind direction
 let windHorizontalSpeed;
@@ -39,13 +54,12 @@ let scrollTop =  window.scrollY || document.documentElement.scrollTop;
 
 window.document.body.style.overflow = 'hidden';
 
-
-//Create the rain drops
-
+//Create & delete rain drops
 function createRainDropDivs(){
-    for (let i = 0; i < numberOfRaindrops; i++) {
+    for (let i = currentNumberOfRaindrops; i < numberOfRaindrops; i++) {
         color = colorArray[i % 6];
-        const raindropDiv = document.createElement('div');
+        raindropDiv = document.createElement('div');
+        raindropDiv.className = 'rainDrop';
         raindropDiv.id = 'drop' + i;
         raindropDiv.style.position = 'absolute';
         raindropDiv.style.top = '0';
@@ -58,10 +72,30 @@ function createRainDropDivs(){
         document.body.appendChild(raindropDiv);
     }
 }
+function deleteRainDropDivs(){
+    for (let i = currentNumberOfRaindrops; i >= numberOfRaindrops; i--) {
+        let divToRemove = document.getElementById("drop"+i);
+        if(divToRemove){
+            //console.log(i);
+            divToRemove.remove();
+        }
+    }
+
+}
+
+function updateRainDropSize(){
+    for(let i=0; i < numberOfRaindrops; i++){
+        raindropDiv = document.getElementById("drop"+i);
+        raindropDiv.style.height = Math.round(Math.random() * raindropSize) + raindropSize + 'px';
+    }
+    startAnimation();
+}
+
+
 
  //Assign random positions to the raindrops
 function giveRandomPositionToDivs(){
-    for (let i = 0; i < numberOfRaindrops; i++) {
+    for (let i = currentNumberOfRaindrops; i < numberOfRaindrops; i++) {
         randomXPositions[i] = Math.round(Math.random() * viewportWidth);
         randomYPositions[i] = Math.round(Math.random() * viewportHeight);
         randomHorizontalSpeeds[i] = Math.round(Math.random() * 8) + raindropSpeed;
@@ -69,11 +103,21 @@ function giveRandomPositionToDivs(){
     }
 }
 
+function updateFallSpeed(){
+    for(let i = 0; i < numberOfRaindrops; i ++){
+        randomHorizontalSpeeds[i] = Math.round(Math.random() * 8) + raindropSpeed;
+    }
+
+    if(raindropSpeed>0){
+        startAnimation();
+    }
+}
+
 
 
 
 //This allows us to re-use the same X number of divs instead of having to infinetly create new ones
-function updateRaindropPositions() {
+function raindropAnimation() {
     viewportWidth = Math.max(
         document.documentElement.clientWidth || 0,
         window.innerWidth || 0
@@ -111,9 +155,30 @@ function updateRaindropPositions() {
 }
 
 
+//TODO Ammount updater!
+
+function uptadeNumberOfDivs(){
+    let elements = document.getElementsByClassName('rainDrop');
+    currentNumberOfRaindrops= elements.length ;
+    //console.log("Old: "+currentNumberOfRaindrops);
+
+    if(numberOfRaindrops>currentNumberOfRaindrops){
+        createRainDropDivs();
+        giveRandomPositionToDivs();
+    }else if (numberOfRaindrops<currentNumberOfRaindrops){
+        //console.log("Del");
+        deleteRainDropDivs();
+    }
+    startAnimation();
+    }
+ 
+
+
+
+//Show Starter!!!!!
 function startAnimation() {
-    updateRaindropPositions();
-    setTimeout(startAnimation, 20);
+    raindropAnimation();
+    infinitePositionUpdate = setTimeout(startAnimation, 20);
 }
 
 createRainDropDivs();
@@ -124,3 +189,56 @@ startAnimation();
 window.onresize = () => {
     window.location.reload();
 };
+
+
+
+//Event Listeners
+ammountSlide.addEventListener("change", function(){
+    numberOfRaindrops = parseInt(ammountSlide.value);
+    clearTimeout(infinitePositionUpdate);
+    uptadeNumberOfDivs();
+});
+
+speedSlide.addEventListener("change", function(){
+    raindropSpeed = parseInt(speedSlide.value) * 4;
+    clearTimeout(infinitePositionUpdate);
+    updateFallSpeed();
+});
+
+sizeSlide.addEventListener("change", function(){
+    raindropSize = parseInt(sizeSlide.value) * 4;
+    clearTimeout(infinitePositionUpdate);
+    updateRainDropSize()
+});
+
+//Wind switch event listeners
+windLeft.addEventListener("change", function() {
+    if(this.checked){
+        windDirection = "left";
+        clearTimeout(infinitePositionUpdate);
+        windHorizontalSpeed = -raindropSpeed;
+        startAnimation();
+        console.log(windDirection);
+    }
+});
+
+windNo.addEventListener("change", function() {
+    if(this.checked){
+        windDirection = "no";
+        clearTimeout(infinitePositionUpdate);
+        windHorizontalSpeed = 0;
+        startAnimation();
+        console.log(windDirection);
+    }
+
+});
+
+windRight.addEventListener("change", function() {
+    if(this.checked){
+        windDirection = "right";
+        clearTimeout(infinitePositionUpdate);
+        windHorizontalSpeed = raindropSpeed;
+        startAnimation();
+        console.log(windDirection);
+    }
+});

@@ -2,33 +2,39 @@
 <head>
     <title>Dynamic Rain</title>
     <link rel="stylesheet" href="./style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="./img/windIcon.png">
 </head>
 
 <body>
     <div class="flexbox">
         <div class="flex-item">
-            <input type="range" id="numraindropsID" min="0" max="200" value="100" step="1" />
+            <img src="./img/numberIcon.png" alt="Number">
+            <input type="range" id="numraindropsID" min="-1" max="200" value="50" step="1" />
         </div>
         <div class="flex-item">
+            <img src="./img/speedIcon.png" alt="Speed">
             <input type="range" id="speedID" min="0" max="8" value="2" step="1" />
         </div>
         <div class="flex-item">
-            <input type="range" id="rainSizeID" min="0" max="20" value="3" step="1" />
+            <img src="./img/rulerIcon.png" alt="Size">
+            <input type="range" id="rainSizeID" min="1" max="20" value="3" step="1" />
         </div>
-        <div class="flex-item switch">
-            <input type="radio" id="switch-left" name="radio"/>
-            <label for="switch-left">Left</label>
-    
-            <input type="radio" id="switch-no" name="radio" checked/>
-            <label for="switch-no">No</label>
-    
-            <input type="radio" id="switch-right" name="radio"/>
-            <label for="switch-right">Right</label>
+        <div class="flex-item">
+            <img src="./img/windIcon.png" alt="">
+            <div class="flex-item switch">
+                <input type="radio" id="switch-left" name="radio"/>
+                <label for="switch-left">Left</label>
+        
+                <input type="radio" id="switch-no" name="radio" checked/>
+                <label for="switch-no">No</label>
+        
+                <input type="radio" id="switch-right" name="radio"/>
+                <label for="switch-right">Right</label>
+            </div>
         </div>
 
     </div>
-
-    <script src="rainSetter.js"></script>
     <script src="rainMaker.js"></script>
 </body>
-</html
+</html>
