@@ -18,7 +18,7 @@ let windDirection = "no";
 let infinitePositionUpdate;
 
 let currentNumberOfRaindrops = 0;
-
+let raindropDiv;
 
 // Set wind direction
 let windHorizontalSpeed;
@@ -58,7 +58,7 @@ window.document.body.style.overflow = 'hidden';
 function createRainDropDivs(){
     for (let i = currentNumberOfRaindrops; i < numberOfRaindrops; i++) {
         color = colorArray[i % 6];
-        const raindropDiv = document.createElement('div');
+        raindropDiv = document.createElement('div');
         raindropDiv.className = 'rainDrop';
         raindropDiv.id = 'drop' + i;
         raindropDiv.style.position = 'absolute';
@@ -83,6 +83,14 @@ function deleteRainDropDivs(){
 
 }
 
+function updateRainDropSize(){
+    for(let i=0; i < numberOfRaindrops; i++){
+        raindropDiv = document.getElementById("drop"+i);
+        raindropDiv.style.height = Math.round(Math.random() * raindropSize) + raindropSize + 'px';
+    }
+    startAnimation();
+}
+
  //Assign random positions to the raindrops
 function giveRandomPositionToDivs(){
     for (let i = currentNumberOfRaindrops; i < numberOfRaindrops; i++) {
@@ -97,7 +105,10 @@ function updateHorizontalSpeeds(){
     for(let i = 0; i < numberOfRaindrops; i ++){
         randomHorizontalSpeeds[i] = Math.round(Math.random() * 8) + raindropSpeed;
     }
-    startAnimation();
+
+    if(raindropSpeed>0){
+        startAnimation();
+    }
 }
 
 
@@ -183,7 +194,6 @@ window.onresize = () => {
 ammountSlide.addEventListener("change", function(){
     numberOfRaindrops = parseInt(ammountSlide.value);
     clearTimeout(infinitePositionUpdate);
-    //console.log("New "+ numberOfRaindrops);
     uptadeNumberOfDivs();
 });
 
@@ -191,12 +201,12 @@ speedSlide.addEventListener("change", function(){
     raindropSpeed = parseInt(speedSlide.value) * 4;
     clearTimeout(infinitePositionUpdate);
     updateHorizontalSpeeds();
-    //console.log(raindropSpeed);
 });
 
 sizeSlide.addEventListener("change", function(){
-    raindropSize = parseInt(sizeSlide.value);
-    //console.log(raindropSize);
+    raindropSize = parseInt(sizeSlide.value) * 4;
+    clearTimeout(infinitePositionUpdate);
+    updateRainDropSize()
 });
 
 //Wind switch event listeners
