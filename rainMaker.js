@@ -76,7 +76,7 @@ function deleteRainDropDivs(){
     for (let i = currentNumberOfRaindrops; i >= numberOfRaindrops; i--) {
         let divToRemove = document.getElementById("drop"+i);
         if(divToRemove){
-            console.log(i);
+            //console.log(i);
             divToRemove.remove();
         }
     }
@@ -93,11 +93,18 @@ function giveRandomPositionToDivs(){
     }
 }
 
+function updateHorizontalSpeeds(){
+    for(let i = 0; i < numberOfRaindrops; i ++){
+        randomHorizontalSpeeds[i] = Math.round(Math.random() * 8) + raindropSpeed;
+    }
+    startAnimation();
+}
+
 
 
 
 //This allows us to re-use the same X number of divs instead of having to infinetly create new ones
-function updateRaindropPositions() {
+function raindropAnimation() {
     viewportWidth = Math.max(
         document.documentElement.clientWidth || 0,
         window.innerWidth || 0
@@ -140,7 +147,7 @@ function updateRaindropPositions() {
 function uptadeNumberOfDivs(){
     let elements = document.getElementsByClassName('rainDrop');
     currentNumberOfRaindrops= elements.length ;
-    console.log("Old: "+currentNumberOfRaindrops);
+    //console.log("Old: "+currentNumberOfRaindrops);
 
     if(numberOfRaindrops>currentNumberOfRaindrops){
         createRainDropDivs();
@@ -157,7 +164,7 @@ function uptadeNumberOfDivs(){
 
 //Show Starter!!!!!
 function startAnimation() {
-    updateRaindropPositions();
+    raindropAnimation();
     infinitePositionUpdate = setTimeout(startAnimation, 20);
 }
 
@@ -176,12 +183,14 @@ window.onresize = () => {
 ammountSlide.addEventListener("change", function(){
     numberOfRaindrops = parseInt(ammountSlide.value);
     clearTimeout(infinitePositionUpdate);
-    console.log("New "+ numberOfRaindrops);
-    uptadeNumberOfDivs(5);
+    //console.log("New "+ numberOfRaindrops);
+    uptadeNumberOfDivs();
 });
 
 speedSlide.addEventListener("change", function(){
-    raindropSpeed = parseInt(speedSlide.value);
+    raindropSpeed = parseInt(speedSlide.value) * 4;
+    clearTimeout(infinitePositionUpdate);
+    updateHorizontalSpeeds();
     //console.log(raindropSpeed);
 });
 
